@@ -21,7 +21,7 @@ class CribDrag
     public function setCiphertexts(array $ciphertexts)
     {
         $this->ciphertexts = $ciphertexts;
-        $this->xorPlaintexts = $this->strxor($ciphertexts[0], $ciphertexts[1]);
+        $this->xorPlaintexts = self::strxor($ciphertexts[0], $ciphertexts[1]);
         $this->initPlaintexts(count($ciphertexts), strlen($this->xorPlaintexts));
     }
 
@@ -37,7 +37,7 @@ class CribDrag
         
         for ($i = 0; $i <= $len; $i++) {
             $chunk = substr($this->xorPlaintexts, $i);
-            $this->candidates[] = $this->strxor($chunk, $this->crib);
+            $this->candidates[] = self::strxor($chunk, $this->crib);
         }
 
         return $this->candidates;
@@ -81,7 +81,7 @@ class CribDrag
 
     public function getKey()
     {
-        return $this->strxor($this->plaintexts[0], $this->ciphertexts[0]);
+        return self::strxor($this->plaintexts[0], $this->ciphertexts[0]);
     }
 
     protected function fillPlaintext($text, $pos, $chunk)
@@ -99,7 +99,7 @@ class CribDrag
         }
     }
 
-    protected function strxor($a, $b)
+    public static function strxor($a, $b)
     {
         $res = "";
         $n = min(strlen($a), strlen($b));
